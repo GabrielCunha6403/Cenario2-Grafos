@@ -1,3 +1,15 @@
+Array.prototype.multiIndexOf = function (el) { 
+    var idxs = [];
+    let contador = 0;
+    var count = this.filter(() => contador++).length;
+    for (var i = this.length - 1; i >= 0; i--) {
+        if (this[i] === el) {
+            idxs.unshift(i);
+        }
+    }
+    return idxs;
+};
+
 class Grafo {
     constructor() {
       this.vertices = {};
@@ -20,6 +32,7 @@ class Grafo {
     verificarCiclo() {
 
       //vetores de armazenamento
+      let cluster = [];
       let visitados = [];
       let pilhaRecursao = [];
       
@@ -43,6 +56,8 @@ class Grafo {
 
             //checa se já passou pela recursão
             } else if (pilhaRecursao[aresta.destino]) {
+                console.log(pilhaRecursao.length)
+                console.log(pilhaRecursao.multiIndexOf(true));
               return true;
             }
 
@@ -102,15 +117,39 @@ class Grafo {
   // grafo.adicionarAresta('B', 'C');
   // grafo.adicionarAresta('C', 'A');
 
-  grafo.adicionarVertice("Recepção");
-  grafo.adicionarVertice("Atendimento");
-  grafo.adicionarVertice("Exame");
-  grafo.adicionarVertice("Medicamentos");
+//   grafo.adicionarVertice("Recepção");
+//   grafo.adicionarVertice("Atendimento");
+//   grafo.adicionarVertice("Exame");
+//   grafo.adicionarVertice("Medicamentos");
 
-  grafo.adicionarAresta("Recepção", "Atendimento");
-  grafo.adicionarAresta("Atendimento", "Exame");
-  grafo.adicionarAresta("Exame", "Medicamentos");
-  grafo.adicionarAresta("Exame", "Recepção");
+//   grafo.adicionarAresta("Recepção", "Atendimento");
+//   grafo.adicionarAresta("Atendimento", "Exame");
+//   grafo.adicionarAresta("Exame", "Medicamentos");
+//   grafo.adicionarAresta("Exame", "Recepção");
+  
+//   console.log('É cíclico?', grafo.verificarCiclo());
+//   console.log('É orientado?', grafo.verificarOrientado());
+//   console.log('É ponderado?', grafo.verificarPonderado());
+  
+  grafo.adicionarVertice('A');
+  grafo.adicionarVertice('B');
+  grafo.adicionarVertice('C');
+  grafo.adicionarVertice('D');
+  grafo.adicionarVertice('E');
+  grafo.adicionarVertice('F');
+  grafo.adicionarVertice('G');
+  
+  grafo.adicionarAresta('A', 'B');
+  grafo.adicionarAresta('A', 'C');
+  grafo.adicionarAresta('B', 'F');
+  grafo.adicionarAresta('C', 'B');
+  grafo.adicionarAresta('C', 'D');
+  grafo.adicionarAresta('C', 'G');
+  grafo.adicionarAresta('D', 'A');
+  grafo.adicionarAresta('D', 'E');
+  grafo.adicionarAresta('F', 'G');
+  grafo.adicionarAresta('G', 'E');
+
   
   console.log('É cíclico?', grafo.verificarCiclo());
   console.log('É orientado?', grafo.verificarOrientado());
