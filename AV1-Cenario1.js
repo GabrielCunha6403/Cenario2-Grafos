@@ -30,53 +30,52 @@ class Grafo {
     }
   
     verificarCiclo() {
-
-      //vetores de armazenamento
-      let cluster = [];
+      // Vetores de armazenamento
       let visitados = [];
       let pilhaRecursao = [];
-      
-      //função recurssiva pra percorrer grafo e encontrar ciclo
+      let verticesDoCiclo = [];
+    
+      // Função recursiva para percorrer o grafo e encontrar ciclo
       const temCiclo = (vertice) => {
-
-        console.log(vertice);
-
+    
         if (!visitados[vertice]) {
-          //se for a primeira vez, seta true pra dizer que já passou por ele
+          // Se for a primeira vez, seta true para dizer que já passou por ele
           visitados[vertice] = true;
           pilhaRecursao[vertice] = true;
-  
-          //percorre as arestas de um vértice
+    
+          // Percorre as arestas de um vértice
           for (let aresta of this.vertices[vertice]) {
-
-            //checa se vértice já foi visitado e aplica função para o próximo vértice
-            if (!visitados[aresta.destino] && temCiclo(aresta.destino)) {
-              //
-              return true;
-
-            //checa se já passou pela recursão
+    
+            // Checa se vértice já foi visitado e aplica a função para o próximo vértice
+            if (!visitados[aresta.destino]) {
+              if (temCiclo(aresta.destino)) {
+                // Se a função recursiva encontrar um ciclo, adiciona o vértice atual aos vértices do ciclo
+                verticesDoCiclo.push(vertice);
+                return true;
+              }
             } else if (pilhaRecursao[aresta.destino]) {
-                console.log(pilhaRecursao.length)
-                console.log(pilhaRecursao.multiIndexOf(true));
+              let index = verticesDoCiclo.findIndex((x) => x === vertice);
+              if(index == -1 && verticesDoCiclo.length > 0)
+                verticesDoCiclo.push(vertice, aresta.destino);
               return true;
             }
-
           }
-
         }
-
+    
         pilhaRecursao[vertice] = false;
         return false;
       };
-  
-      //repete função para todos os vértices
+    
+      // Chama a função recursiva para cada vértice
       for (let vertice in this.vertices) {
-        if (temCiclo(vertice)) {
-          return true;
+        if (!visitados[vertice] && temCiclo(vertice)) {
+          // Se a função recursiva encontrar um ciclo, retorna os vértices do ciclo
+          return verticesDoCiclo;
         }
       }
-  
-      return false;
+    
+      // Se nenhum ciclo for encontrado
+      return "Sem ciclo encontrado";
     }
   
     verificarOrientado() {
